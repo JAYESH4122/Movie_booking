@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserve Seats</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #fff;
+    }
+    h1 {
+      font-size: 2rem;
+      margin: 20px 0;
+      color: #FFC107;
+    }
+    p {
+      font-size: 1rem;
+      margin-bottom: 30px;
+      color: #ddd;
+    }
+    .screen {
+      width: 80%;
+      height: 30px;
+      margin: 20px auto;
+      background: linear-gradient(to right, #2193b0, #6dd5ed);
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    .screen-label {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+    .seats-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto;
+      padding: 10px;
+    }
+    .row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    .seat {
+      width: 40px;
+      height: 40px;
+      background-color: #3E3E3E;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 14px;
+      margin: 5px;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+    .seat:hover {
+      transform: scale(1.1);
+    }
+    .seat.reserved {
+      background-color: #F44336;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    .seat.selected {
+      background-color: #FFC107;
+      color: #000;
+    }
+    .legend {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .legend div {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    .legend div span {
+      width: 20px;
+      height: 20px;
+      display: block;
+      margin-right: 5px;
+      border-radius: 4px;
+    }
+    .available span {
+      background-color: #3E3E3E;
+    }
+    .reserved span {
+      background-color: #F44336;
+    }
+    .selected span {
+      background-color: #FFC107;
+    }
+    .form-container {
+      margin-top: 20px;
+      background: #1E1E1E;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      display: inline-block;
+    }
+    .form-container input,
+    .form-container button {
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .form-container input {
+      border: 1px solid #555;
+      background: #2A2A2A;
+      color: #fff;
+    }
+    .form-container button {
+      background: #FFC107;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .form-container button:hover {
+      background: #ffca28;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Reserve Seats for <%= movie.name %></h1>
+  <p>Date: <%= movie.date %>, Time: <%= movie.time %></p>
+  
+  <div class="screen"></div>
+  <p class="screen-label">Screen</p>
+
+  <div class="seats-container">
+    <% for (let row = 1; row <= 10; row++) { %>
+      <div class="row">
+        <% for (let seat = 1; seat <= 15; seat++) { %>
+          <div class="seat <%= reservedSeats.includes(String(((row - 1) * 15) + seat)) ? 'reserved' : '' %>" 
+               data-seat="<%= ((row - 1) * 15) + seat %>" 
+               onclick="toggleSeat(this)">
+            <%= ((row - 1) * 15) + seat %>
+          </div>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="legend">
+    <div class="available"><span></span> Available</div>
+    <div class="reserved"><span></span> Reserved</div>
+    <div class="selected"><span></span> Selected</div>
+  </div>
+
+  <div class="form-container">
+    <form action="/reserve/<%= movie._id %>" method="POST">
+      <label for="user">Your Name:</label>
+      <input type="text" name="user" required placeholder="Enter your name" />
+      <input type="hidden" name="seats" id="selectedSeats" />
+      <button type="submit">Reserve Seats</button>
+    </form>
+  </div>
+
+  <footer style="margin-top: 20px; padding: 10px 0; background-color: #1E1E1E; color: #bbb; text-align: center; font-size: 0.8rem;">
+    © 2025 Movie Booking App by jayesh. All Rights Reserved.
+  </footer>
+  
+
+  <script>
+    function toggleSeat(seat) {
+      if (seat.classList.contains('reserved')) {
+        alert('This seat is already reserved.');
+        return;
+      }
+
+      seat.classList.toggle('selected');
+      const selectedSeats = document.querySelectorAll('.seat.selected');
+      const selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.getAttribute('data-seat'));
+      document.getElementById('selectedSeats').value = selectedSeatNumbers.join(',');
+    }
+  </script>
+
+</body>
+</html>

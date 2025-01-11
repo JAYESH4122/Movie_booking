@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Movies</title>
+</head>
+<body>
+  <h1>Movie List</h1>
+  <ul>
+    <% movies.forEach(movie => { %>
+      <li>
+        <h3><%= movie.name %> - <%= movie.date %> @ <%= movie.time %></h3>
+        <a href="/reserve/<%= movie._id %>">Reserve Seats</a>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Admin Dashboard</title>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Movie</th>
+        <th>Seats</th>
+        <th>User</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% reservations.forEach(reservation => { %>
+        <tr>
+          <td><%= reservation.movieId.name %></td>
+          <td><%= reservation.seats.join(', ') %></td>
+          <td><%= reservation.user %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>
