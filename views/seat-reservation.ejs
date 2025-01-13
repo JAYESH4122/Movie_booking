@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reserve Seats</title>
   <style>
-     body {
+        body {
       font-family: 'Poppins', sans-serif;
       text-align: center;
       margin: 0;
@@ -221,7 +222,6 @@
   </style>
 </head>
 <body>
-
   <h1>Reserve Seats for Chennai Express</h1>
   <p>Date: <%= movie.date %>, Time: <%= movie.time %> PM</p>
   
@@ -249,18 +249,19 @@
   </div>
 
   <div class="form-container">
-    <% if (errorMessage) { %>
+    <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
       <div class="alert" style="color: red; font-size: 1.1rem;">
         <%= errorMessage %>
       </div>
     <% } %>
     <form action="/reserve/<%= movie._id %>" method="POST" onsubmit="return validateSeats()">
       <label for="user">Your Name:</label>
-      <input type="text" name="user" required placeholder="Enter your name" />
+      <input type="text" name="user" id="userName" required placeholder="Enter your name" />
       <input type="hidden" name="seats" id="selectedSeats" />
       <button type="submit">Reserve Seats</button>
     </form>
   </div>
+  
 
   <footer>
     © 2025 Movie Booking App by Jayesh. All Rights Reserved.
@@ -273,21 +274,26 @@
         return;
       }
 
-      seat.classList.toggle('selected');
       const selectedSeats = document.querySelectorAll('.seat.selected');
-      const selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.getAttribute('data-seat'));
+      if (!seat.classList.contains('selected') && selectedSeats.length >= 2) {
+        alert('You can only select up to 2 seats.');
+        return;
+      }
+
+      seat.classList.toggle('selected');
+      const updatedSeats = document.querySelectorAll('.seat.selected');
+      const selectedSeatNumbers = Array.from(updatedSeats).map(seat => seat.getAttribute('data-seat'));
       document.getElementById('selectedSeats').value = selectedSeatNumbers.join(',');
     }
 
     function validateSeats() {
       const selectedSeats = document.querySelectorAll('.seat.selected');
-      if (selectedSeats.length > 2) {
-        alert('You can only select up to 2 seats.');
+      if (selectedSeats.length === 0) {
+        alert('Please select at least one seat.');
         return false; // Prevent form submission
       }
       return true; // Allow form submission
     }
   </script>
-
 </body>
 </html>
