@@ -2,7 +2,6 @@ const Reservation = require('../models/Reservation');
 const Movie = require('../models/Movie');
 
 // Controller to handle seat reservation
-// Controller to handle seat reservation
 exports.reserveSeats = async (req, res) => {
   const { seats, user } = req.body;
   const movieId = req.params.id;
@@ -13,7 +12,11 @@ exports.reserveSeats = async (req, res) => {
 
     if (existingReservation) {
       // If a reservation already exists for this user, return an error message
-      return res.status(400).json({ message: 'This user has already reserved seats.' });
+      return res.render('reservation', {
+        movie: await Movie.findById(movieId),
+        errorMessage: 'This user has already reserved seats.',
+        reservedSeats: await getReservedSeats(movieId), // Assume this function retrieves reserved seats
+      });
     }
 
     // Save the reservation in the database
@@ -32,6 +35,7 @@ exports.reserveSeats = async (req, res) => {
     res.status(500).json({ message: 'Error reserving seats', error: err });
   }
 };
+
 
 // Controller to display the ticket
 exports.getTicket = async (req, res) => {
