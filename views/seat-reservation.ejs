@@ -139,20 +139,21 @@
 </head>
 <body>
 
-  <h1>Reserve Seats for <%= movie.name %></h1>
-  <p>Date: <%= movie.date %>, Time: <%= movie.time %></p>
+  <h1>Reserve Seats for Chennai Express</h1>
+
+  <p>Date: <%= movie.date %>, Time: <%= movie.time %> PM</p>
   
   <div class="screen"></div>
   <p class="screen-label">Screen</p>
 
   <div class="seats-container">
-    <% for (let row = 1; row <= 10; row++) { %>
+    <% for (let row = 1; row <= 11; row++) { %>
       <div class="row">
-        <% for (let seat = 1; seat <= 15; seat++) { %>
-          <div class="seat <%= reservedSeats.includes(String(((row - 1) * 15) + seat)) ? 'reserved' : '' %>" 
-               data-seat="<%= ((row - 1) * 15) + seat %>" 
+        <% for (let seat = 1; seat <= 14; seat++) { %>
+          <div class="seat <%= reservedSeats.includes(String(((row - 1) * 14) + seat)) ? 'reserved' : '' %}" 
+               data-seat="<%= ((row - 1) * 14) + seat %>" 
                onclick="toggleSeat(this)">
-            <%= ((row - 1) * 15) + seat %>
+            <%= ((row - 1) * 14) + seat %>
           </div>
         <% } %>
       </div>
@@ -165,6 +166,13 @@
     <div class="selected"><span></span> Selected</div>
   </div>
 
+  <!-- Display alert message if there's an error -->
+  <% if (errorMessage) { %>
+    <div class="alert" style="color: red; background-color: #f8d7da; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+      <strong>Alert!</strong> <%= errorMessage %>
+    </div>
+  <% } %>
+
   <div class="form-container">
     <form action="/reserve/<%= movie._id %>" method="POST">
       <label for="user">Your Name:</label>
@@ -174,10 +182,9 @@
     </form>
   </div>
 
-  <footer style="margin-top: 20px; padding: 10px 0; background-color: #1E1E1E; color: #bbb; text-align: center; font-size: 0.8rem;">
-    © 2025 Movie Booking App by jayesh. All Rights Reserved.
+  <footer>
+    © 2025 Movie Booking App by Jayesh. All Rights Reserved.
   </footer>
-  
 
   <script>
     function toggleSeat(seat) {
