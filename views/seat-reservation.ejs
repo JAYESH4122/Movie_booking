@@ -5,26 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reserve Seats</title>
   <style>
+    /* General Styles */
     body {
       font-family: 'Poppins', sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
-      background-color: #121212;
+      background-image: url('https://browngirlmagazine.com/wp-content/uploads/2018/08/Chennai-Express-New-Poster-1024x648.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-color: rgba(18, 18, 18, 0.8); /* Adds a dark overlay */
+      background-blend-mode: overlay;
       color: #fff;
     }
+
+
+
     h1 {
-      font-size: 2rem;
-      margin: 20px 0;
-      color: #FFC107;
+      font-size: 2.2rem;
+      margin: 0;
+      color: #bbb;
+      font-family: cursive;
+      /* text-transform: uppercase; */
+      letter-spacing: 2px;
     }
     p {
-      font-size: 1rem;
+      font-size: 1.1rem;
       margin-bottom: 30px;
-      color: #ddd;
+      font-family: cursive;
+      color: #ccc;
+      font-weight: bold;
     }
+
+    /* Screen Section */
     .screen {
-      width: 80%;
+      width: 90%;
+      max-width: 600px;
       height: 30px;
       margin: 20px auto;
       background: linear-gradient(to right, #2193b0, #6dd5ed);
@@ -33,9 +51,11 @@
     }
     .screen-label {
       margin-top: 10px;
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: #bbb;
     }
+
+    /* Seat Layout */
     .seats-container {
       display: flex;
       flex-direction: column;
@@ -43,11 +63,13 @@
       align-items: center;
       margin: 20px auto;
       padding: 10px;
+      max-width: 90%;
     }
     .row {
       display: flex;
       justify-content: center;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
     }
     .seat {
       width: 40px;
@@ -75,6 +97,8 @@
       background-color: #FFC107;
       color: #000;
     }
+
+    /* Legend */
     .legend {
       display: flex;
       justify-content: center;
@@ -103,6 +127,8 @@
     .selected span {
       background-color: #FFC107;
     }
+
+    /* Form Section */
     .form-container {
       margin-top: 20px;
       background: #1E1E1E;
@@ -110,6 +136,15 @@
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
       display: inline-block;
+      max-width: 400px;
+      width: 90%;
+    }
+    .form-container label {
+      display: block;
+      text-align: left;
+      font-size: 1rem;
+      margin-bottom: 5px;
+      color: #bbb;
     }
     .form-container input,
     .form-container button {
@@ -131,15 +166,64 @@
       color: #000;
       font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
     .form-container button:hover {
       background: #ffca28;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 20px;
+      padding: 10px 0;
+      background-color: #1E1E1E;
+      color: #bbb;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+      .seats-container {
+        max-width: 100%;
+      }
+      .seat {
+        width: 35px;
+        height: 35px;
+        font-size: 12px;
+      }
+      .form-container {
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 0.9rem;
+      }
+      .seat {
+        width: 30px;
+        height: 30px;
+        font-size: 10px;
+      }
+      .form-container {
+        padding: 10px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Reserve Seats for Chennai Express</h1>
+    <h1>Reserve Seats your for Chennai Express</h1>
 
   <p>Date: <%= movie.date %>, Time: <%= movie.time %> PM</p>
   
@@ -150,7 +234,7 @@
     <% for (let row = 1; row <= 11; row++) { %>
       <div class="row">
         <% for (let seat = 1; seat <= 14; seat++) { %>
-          <div class="seat <%= reservedSeats.includes(String(((row - 1) * 14) + seat)) ? 'reserved' : '' %}" 
+          <div class="seat <%= reservedSeats.includes(String(((row - 1) * 14) + seat)) ? 'reserved' : '' %>" 
                data-seat="<%= ((row - 1) * 14) + seat %>" 
                onclick="toggleSeat(this)">
             <%= ((row - 1) * 14) + seat %>
@@ -165,13 +249,6 @@
     <div class="reserved"><span></span> Reserved</div>
     <div class="selected"><span></span> Selected</div>
   </div>
-
-  <!-- Display alert message if there's an error -->
-  <% if (errorMessage) { %>
-    <div class="alert" style="color: red; background-color: #f8d7da; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
-      <strong>Alert!</strong> <%= errorMessage %>
-    </div>
-  <% } %>
 
   <div class="form-container">
     <form action="/reserve/<%= movie._id %>" method="POST">
