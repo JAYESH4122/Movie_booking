@@ -1,46 +1,60 @@
+const mongoose = require('mongoose');
 const Reservation = require('../models/Reservation');
 const Movie = require('../models/Movie');
+const { render } = require('ejs');
 
-// Controller to handle seat reservation
+
 exports.reserveSeats = async (req, res) => {
   const { seats, user } = req.body;
   const movieId = req.params.id;
 
-  // Check if the user already has a reservation
   try {
+    // Fetch the movie and reserved seat
+    const movie = await Movie.findById(movieId);
+    if (!movie) {
+      return res.status(404).render('error', { message: 'Movie not found' });
+    }
+
+    const reservations = await Reservation.find({ movieId });
+    const reservedSeats = reservations.flatMap(res => res.seats);
+
+    // Check if user already has a reservation
     const existingReservation = await Reservation.findOne({ user });
-
     if (existingReservation) {
-      return res.render('reservation', {
-        movie: await Movie.findById(movieId),
+      return res.render('seat-reservation', {
+        movie,
         errorMessage: 'This user has already reserved seats.',
-        reservedSeats: await getReservedSeats(movieId),
+        reservedSeats,
       });
     }
 
-    // Ensure the user can only reserve up to 2 seats
-    if (seats.length > 2) {
-      return res.render('reservation', {
-        movie: await Movie.findById(movieId),
+    // Validate seat selection
+    const seatArray = seats.split(',');
+    if (seatArray.length > 2) {
+      return res.render('seat-reservation', {
+        movie,
         errorMessage: 'You can only reserve up to 2 seats.',
-        reservedSeats: await getReservedSeats(movieId),
+        reservedSeats,
       });
     }
 
-    // Save the reservation in the database
+    // Save the reservation
     const reservation = new Reservation({
       movieId,
-      seats,
+      seats: seatArray,
       user,
     });
-
     await reservation.save();
 
-    // Redirect to the ticket view with reservation details
+    // Redirect to the ticket view
     res.redirect(`/ticket/${reservation._id}`);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Error reserving seats', error: err });
+    res.status(500).render('seat-reservation', {
+      movie: await Movie.findById(movieId),
+      errorMessage: 'An error occurred while processing your reservation.',
+      reservedSeats: reservedSeats || [],
+    });
   }
 };
 
