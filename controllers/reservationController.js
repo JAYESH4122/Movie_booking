@@ -6,16 +6,24 @@ exports.reserveSeats = async (req, res) => {
   const { seats, user } = req.body;
   const movieId = req.params.id;
 
+  // Check if the user already has a reservation
   try {
-    // Check if the user already has a reservation
     const existingReservation = await Reservation.findOne({ user });
 
     if (existingReservation) {
-      // If a reservation already exists for this user, return an error message
       return res.render('reservation', {
         movie: await Movie.findById(movieId),
         errorMessage: 'This user has already reserved seats.',
-        reservedSeats: await getReservedSeats(movieId), // Assume this function retrieves reserved seats
+        reservedSeats: await getReservedSeats(movieId),
+      });
+    }
+
+    // Ensure the user can only reserve up to 2 seats
+    if (seats.length > 2) {
+      return res.render('reservation', {
+        movie: await Movie.findById(movieId),
+        errorMessage: 'You can only reserve up to 2 seats.',
+        reservedSeats: await getReservedSeats(movieId),
       });
     }
 
