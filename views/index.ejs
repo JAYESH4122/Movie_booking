@@ -1,17 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Movies</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FilmFiesta 2025 - Chennai Express</title>
+  <style>
+    /* General Reset */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #121212;
+      background-image: url('https://hamaraphotos.com/albums300_2012/userpics/10056/hpse_fullsize__3045989795_Chennai%20Express%20Poster.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-color: rgba(18, 18, 18, 0.8); /* Adds a dark overlay */
+      background-blend-mode: overlay;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.9); /* Semi-transparent container */
+      background-image: url('https://img.freepik.com/premium-vector/flat-design-old-film-background_23-2150995815.jpg?semt=ais_hybrid'); /* Background pattern */
+      background-size: cover;
+      color: rgb(255, 255, 255);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+      margin: 50px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8); /* Semi-transparent header */
+      background-image: url('https://img.freepik.com/premium-vector/flat-design-old-film-background_23-2150995815.jpg?semt=ais_hybrid'); /* Header texture */
+      color: white;
+      position: relative;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .header img {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .header .college-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 5px 0;
+      letter-spacing: 1.5px;
+    }
+
+    .header .union-name {
+      font-size: 1.5rem;
+      margin: 10px 0;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .header .presents {
+      font-size: 1rem;
+      font-style: italic;
+      margin: 10px 0;
+    }
+
+    .header .event-name {
+      font-size: 2rem;
+      margin: 15px 0;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .poster {
+      width: 100%;
+      position: relative;
+    }
+
+    .poster img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .movie-details {
+      padding: 20px;
+    }
+
+    .movie-details h2 {
+      font-size: 1.3rem;
+      margin: 0 0 10px;
+      text-align: center;
+    }
+
+    .movie-details p {
+      margin: 5px 0;
+      font-size: 0.9rem;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .ticket-button {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      background-color: #e33030;
+      color: white;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 0 0 15px 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .ticket-button:hover {
+      background-color: #ff4a4a;
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      .container {
+        width: 95%;
+      }
+
+      .header img {
+        width: 40px;
+        height: 40px;
+        top: 10px;
+        left: 10px;
+      }
+
+      .header .college-name {
+        font-size: 1rem;
+      }
+
+      .header .union-name {
+        font-size: 1.2rem;
+      }
+
+      .header .event-name {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Movie List</h1>
-  <ul>
-    <% movies.forEach(movie => { %>
-      <li>
-        <h3><%= movie.name %> - <%= movie.date %> @ <%= movie.time %></h3>
-        <a href="/reserve/<%= movie._id %>">Reserve Seats</a>
-      </li>
-    <% }) %>
-  </ul>
+  <div class="container">
+    <!-- Header Section -->
+    <div class="header">
+      <p class="college-name">MARYMATHA ARTS AND SCIENCE COLLEGE</p>
+      <h3 class="union-name">SAMATVA COLLEGE UNION</h3>
+      <p class="presents">presents</p>
+      <h4 class="event-name">FilmFiesta</h4>
+    </div>
+
+    <!-- Poster Section -->
+    <div class="poster">
+      <img src="https://wallpapers.oneindia.com/ph-1024x768/2013/08/chennai-express_137596431400.jpg" alt="Chennai Express Poster">
+    </div>
+
+    <!-- Movie Details Section -->
+    <div class="movie-details">
+      <h2>Chennai Express (2013)</h2>
+      <p><strong>Date:</strong> <%= movies[0].date %></p>
+      <p><strong>Time:</strong> <%= movies[0].time %></p>
+      <p><strong>Language:</strong> Malayalam</p>
+      <p><strong>Duration:</strong> 2h 6m</p>
+      <p>Chennai Express is about the story of Rahul and Meenamma, a common man and a woman.</p>
+    </div>
+
+    <!-- Reserve Tickets Button -->
+    <a href="/reserve/<%= movies[0]._id %>" class="ticket-button">Reserve Tickets</a>
+  </div>
 </body>
 </html>
+
