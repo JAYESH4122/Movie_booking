@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reserve Seats</title>
   <style>
-    /* General Styles */
-    body {
+     body {
       font-family: 'Poppins', sans-serif;
       text-align: center;
       margin: 0;
@@ -223,8 +222,7 @@
 </head>
 <body>
 
-    <h1>Reserve Seats your for Chennai Express</h1>
-
+  <h1>Reserve Seats for Chennai Express</h1>
   <p>Date: <%= movie.date %>, Time: <%= movie.time %> PM</p>
   
   <div class="screen"></div>
@@ -251,7 +249,12 @@
   </div>
 
   <div class="form-container">
-    <form action="/reserve/<%= movie._id %>" method="POST">
+    <% if (errorMessage) { %>
+      <div class="alert" style="color: red; font-size: 1.1rem;">
+        <%= errorMessage %>
+      </div>
+    <% } %>
+    <form action="/reserve/<%= movie._id %>" method="POST" onsubmit="return validateSeats()">
       <label for="user">Your Name:</label>
       <input type="text" name="user" required placeholder="Enter your name" />
       <input type="hidden" name="seats" id="selectedSeats" />
@@ -274,6 +277,15 @@
       const selectedSeats = document.querySelectorAll('.seat.selected');
       const selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.getAttribute('data-seat'));
       document.getElementById('selectedSeats').value = selectedSeatNumbers.join(',');
+    }
+
+    function validateSeats() {
+      const selectedSeats = document.querySelectorAll('.seat.selected');
+      if (selectedSeats.length > 2) {
+        alert('You can only select up to 2 seats.');
+        return false; // Prevent form submission
+      }
+      return true; // Allow form submission
     }
   </script>
 
