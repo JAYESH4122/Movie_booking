@@ -13,6 +13,6 @@ router.get('/reserve/:id', movieController.getMovieById);
 router.post('/reserve/:id', reservationController.reserveSeats);
 
 // Route to show the ticket
-router.get('/ticke/:id', reservationController.getTicket);
+router.get('/ticket/:id', reservationController.getTicket);
 
 module.exports = router;
