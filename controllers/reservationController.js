@@ -88,9 +88,13 @@ exports.getTicket = async (req, res) => {
 // Controller to get all reservations (for Admin)
 exports.getAllReservations = async (req, res) => {
   try {
+    // Fetch all reservations and populate movie details
     const reservations = await Reservation.find().populate('movieId');
+    
+    // Render admin view with reservations
     res.render('admin', { reservations });
   } catch (err) {
     res.status(500).json({ message: 'Error fetching reservations', error: err });
   }
 };
+
