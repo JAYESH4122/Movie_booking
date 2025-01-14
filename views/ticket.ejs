@@ -27,7 +27,7 @@
     .ticket {
       background: #baa271;
       width: 700px;
-      height: 300px;
+      height: 350px;
       border-radius: 15px;
       display: flex;
       border: 2px solid #a76a07;
@@ -111,8 +111,13 @@
       width: 200px;
     }
 
-    .footer {
-      position: absolute;
+    footer {
+      margin-top: 20px;
+      padding: 10px 0;
+      background-color: #1E1E1E;
+      color: #bbb;
+      text-align: center;
+      font-size: 0.8rem;
     }
   </style>
 </head>
@@ -140,6 +145,20 @@
         </div>
       </div>
 
+      <div class="ticket-section">
+        <div class="section-title">Booking Details</div>
+        <div class="ticket-details">
+          <p><strong>Booked On:</strong> <%= new Date(bookedTime).toLocaleString('en-IN', { 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit' 
+          }) %></p>
+        </div>
+      </div>
+      
+
       <button class="print-button" onclick="window.print()">Print Ticket</button>
       <p class="charge">Ticket Charge = ₹20</p>
     </div>
@@ -150,6 +169,5 @@
     </div>
   </div>
 </div>
-
 </body>
 </html>
