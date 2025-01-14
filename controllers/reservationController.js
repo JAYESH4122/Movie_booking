@@ -76,8 +76,8 @@ exports.getTicket = async (req, res) => {
       return res.status(404).json({ message: 'Movie details not found' });
     }
 
-    // Pass reservation and movie details to the ticket view
-    res.render('ticket', { reservation, movie });
+    // Pass reservation, movie, and createdAt time to the ticket view
+    res.render('ticket', { reservation, movie, bookedTime: reservation.createdAt });
   } catch (err) {
     res.status(500).json({ message: 'Error fetching ticket details', error: err });
   }
