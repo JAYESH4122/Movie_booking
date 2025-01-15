@@ -10,9 +10,9 @@ router.get('/', movieController.getAllMovies);
 router.get('/reserve/:id', movieController.getMovieById);
 
 // Reserve seats for a movie
-router.post('/reserv/:id', reservationController.reserveSeats);
+router.post('/reserve/:id', reservationController.reserveSeats);
 
 // Route to show the ticket
-router.get('/ticke/:id', reservationController.getTicket);
+router.get('/ticket/:id', reservationController.getTicket);
 
 module.exports = router;
