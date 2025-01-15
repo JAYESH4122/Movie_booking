@@ -7,7 +7,7 @@ const reservationController = require('../controllers/reservationController');
 router.get('/', movieController.getAllMovies);
 
 // Get specific movie and show seat reservation form
-router.get('/reserv/:id', movieController.getMovieById);
+router.get('/reserve/:id', movieController.getMovieById);
 
 // Reserve seats for a movie
 router.post('/reserve/:id', reservationController.reserveSeats);
